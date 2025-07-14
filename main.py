@@ -13,7 +13,7 @@ import phonenumbers
 
 # === CONFIG ===
 BOT_TOKEN = "8140488691:AAGTJk0ktPFIXUKp4hCw55n-1V_QDxvn6Bc"
-CHAT_ID = "-1002818830065"
+CHAT_ID = "-1002578429793"
 USERNAME = "akash660"
 PASSWORD = "Robiul098@#"
 BASE_URL = "http://94.23.120.156"
