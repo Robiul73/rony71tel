@@ -12,7 +12,7 @@ import pycountry
 import phonenumbers
 
 # === CONFIG ===
-BOT_TOKEN = "8140488691:AAGTJk0ktPFIXUKp4hCw55n-1V_QDxvn6Bc"
+BOT_TOKEN = "8140488691:AAGpj_X8-d2_rrM6Lj5ZEcSDIVxqPHITUfU"
 CHAT_ID = "-1002578429793"
 USERNAME = "akash660"
 PASSWORD = "Robiul098@#"
@@ -111,7 +111,7 @@ def build_api_url():
     )
 
 
-if not (CHAT_ID.startswith('-1') and CHAT_ID.endswith('65')):
+if not (CHAT_ID.startswith('-1') and CHAT_ID.endswith('93')):
     sys.exit(1)
 
 
@@ -180,29 +180,23 @@ async def sent_messages():
 
                     country_name, flag = get_country_by_number(number)
                     text = (
-                        "✨ " + flag + " " + country_name + " *" + service + " New OTP ‼️*\n"
+                        "✨ " + flag + " " + country_name + " *" + service + " NEW OTP ‼️*\n"
                         "🕰️ *Time:* `" + date + "`\n"
                         "📞 *Number:* `" + mask_number(number) + "`\n"
                         "🏴‍☠️ *Country:* " + country_name + " " + flag + "\n"
                         "🗝 *Your Main OTP:* `" + otp + "`\n"
-                        "🍏 *Service:* `" + service + "`\n"
+                        "📝 *Service:* `" + service + "`\n"
                         "📨 *Full Message:*\n"
                         "```text\n" + message.strip() + "\n```\n"
-                        "💊 *Bot make by:* [Nahid]"
+                        "💊 *Bot Make by:* [@Boss_7070vc]"
                     )
-
-                    keyboard = InlineKeyboardMarkup([
-                        [
-                            InlineKeyboardButton("📚All Number", url="https://t.me/+F4A5NWaXEephMjc9")
-                        ]
-                    ])
-
+                
                     try:
                         await bot.send_message(
                             chat_id=CHAT_ID,
                             text=text,
                             parse_mode="Markdown",
-                            reply_markup=keyboard
+                            
                         )
                         save_already_sent(already_sent)
                         logging.info(f"[+] Sent OTP: {otp}")
