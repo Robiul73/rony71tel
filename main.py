@@ -12,14 +12,14 @@ import pycountry
 import phonenumbers
 
 # === CONFIG ===
-BOT_TOKEN = "8140488691:AAGpj_X8-d2_rrM6Lj5ZEcSDIVxqPHITUfU"
-CHAT_ID = "-1002578429793"
-USERNAME = "akash660"
-PASSWORD = "Robiul098@#"
-BASE_URL = "http://94.23.120.156"
-LOGIN_PAGE_URL = BASE_URL + "/ints/login"
-LOGIN_POST_URL = BASE_URL + "/ints/signin"
-DATA_URL = BASE_URL + "/ints/agent/res/data_smscdr.php"
+BOT_TOKEN = "7610187834:AAHGjQSTaqByRiTYE94ba9pZPUtKkfz14FU"
+CHAT_ID = "-1002818830065"
+USERNAME = "mdsujon0099"
+PASSWORD = "@Mdsujon0099"
+BASE_URL = "http://51.89.99.105"
+LOGIN_PAGE_URL = BASE_URL + "/NumberPanel/login"
+LOGIN_POST_URL = BASE_URL + "/NumberPanel/signin"
+DATA_URL = BASE_URL + "/NumberPanel/agent/res/data_smscdr.php"
 
 bot = Bot(token=BOT_TOKEN)
 session = requests.Session()
@@ -27,10 +27,8 @@ session.headers.update({"User-Agent": "Mozilla/5.0"})
 
 logging.basicConfig(level=logging.INFO, format='\033[92m[%(asctime)s] [%(levelname)s] %(message)s\033[0m', datefmt='%Y-%m-%d %H:%M:%S')
 
-
 def escape_markdown(text: str) -> str:
     return re.sub(r'([_*()~`>#+=|{}.!-])', r'\\\1', text)
-
 
 def mask_number(number: str) -> str:
     if len(number) > 11:
@@ -44,11 +42,9 @@ def mask_number(number: str) -> str:
     else:
         return number
 
-
 def save_already_sent(already_sent):
     with open("already_sent.json", "w") as f:
         json.dump(list(already_sent), f)
-
 
 def load_already_sent():
     if os.path.exists("already_sent.json"):
@@ -56,9 +52,7 @@ def load_already_sent():
             return set(json.load(f))
     return set()
 
-
 logging.info('Script By @Robiul_TNE_R')
-
 
 def login():
     try:
@@ -80,7 +74,7 @@ def login():
             "Referer": LOGIN_PAGE_URL
         }
         resp = session.post(LOGIN_POST_URL, data=payload, headers=headers)
-        if "dashboard" in resp.text.lower() or "logout" in resp.text.lower():
+        if "dashboard" in resp.text.lower() or "logout" in resp.text.lower() or "SMSCDRReports" in resp.text:
             logging.info("Login successful ✅")
             return True
         else:
@@ -90,12 +84,10 @@ def login():
         logging.error(f"Login error: {e}")
         return False
 
-
 def build_api_url():
-    start_date = "2025-05-05"
-    end_date = "2026-01-01"
+    today = time.strftime("%Y-%m-%d")
     return (
-        f"{DATA_URL}?fdate1={start_date}%2000:00:00&fdate2={end_date}%2023:59:59&"
+        f"{DATA_URL}?fdate1={today}%2000:00:00&fdate2={today}%2023:59:59&"
         "frange=&fclient=&fnum=&fcli=&fgdate=&fgmonth=&fgrange=&fgclient=&fgnumber=&fgcli=&fg=0&"
         "sEcho=1&iColumns=9&sColumns=%2C%2C%2C%2C%2C%2C%2C%2C&iDisplayStart=0&iDisplayLength=25&"
         "mDataProp_0=0&sSearch_0=&bRegex_0=false&bSearchable_0=true&bSortable_0=true&"
@@ -109,11 +101,6 @@ def build_api_url():
         "mDataProp_8=8&sSearch_8=&bRegex_8=false&bSearchable_8=true&bSortable_8=false&"
         "sSearch=&bRegex=false&iSortCol_0=0&sSortDir_0=desc&iSortingCols=1"
     )
-
-
-if not (CHAT_ID.startswith('-1') and CHAT_ID.endswith('93')):
-    sys.exit(1)
-
 
 def fetch_data():
     url = build_api_url()
@@ -140,9 +127,7 @@ def fetch_data():
         logging.error(f"Fetch error: {e}")
         return None
 
-
 already_sent = load_already_sent()
-
 
 def get_country_by_number(number):
     try:
@@ -151,13 +136,11 @@ def get_country_by_number(number):
         if country_code:
             country = pycountry.countries.get(alpha_2=country_code)
             if country:
-                country_name = country.name
                 flag = ''.join([chr(127397 + ord(c)) for c in country_code])
-                return country_name, flag
+                return country.name, flag
         return 'Unknown', '🌐'
     except:
         return 'Unknown', '🌐'
-
 
 async def sent_messages():
     logging.info("🔍 Checking for messages...\n")
@@ -180,23 +163,33 @@ async def sent_messages():
 
                     country_name, flag = get_country_by_number(number)
                     text = (
-                        "✨ " + flag + " " + country_name + " *" + service + " NEW OTP ‼️*\n"
+                        "✨ " + flag + " " + country_name + " *" + service + " OTP ALERT‼️*\n"
                         "🕰️ *Time:* `" + date + "`\n"
                         "📞 *Number:* `" + mask_number(number) + "`\n"
-                        "🏴‍☠️ *Country:* " + country_name + " " + flag + "\n"
-                        "🗝 *Your Main OTP:* `" + otp + "`\n"
-                        "📝 *Service:* `" + service + "`\n"
-                        "📨 *Full Message:*\n"
+                        "🌍 *Country:* " + country_name + " " + flag + "\n"
+                        "🔑 *Your Main OTP:* `" + otp + "`\n"
+                        "🍏 *Service:* `" + service + "`\n"
+                        "📬 *Full Message:*\n"
                         "```text\n" + message.strip() + "\n```\n"
-                        "💊 *Bot Make by:* [@Boss_7070vc]"
+                        "👑 *Powered by:* [@Robiul_TNE_R]"
                     )
-                
+
+                    keyboard = InlineKeyboardMarkup([
+                        [
+                            InlineKeyboardButton("🏆Main Channel", url="https://t.me/TRICK_EARN_R"),
+                            InlineKeyboardButton("♻️Backup Channel", url="https://t.me/World_of_Method")
+                        ],
+                        [
+                            InlineKeyboardButton("📚All Number", url="https://t.me/+Grzx-jay05BmOTI9")
+                        ]
+                    ])
+
                     try:
                         await bot.send_message(
                             chat_id=CHAT_ID,
                             text=text,
                             parse_mode="Markdown",
-                            
+                            reply_markup=keyboard
                         )
                         save_already_sent(already_sent)
                         logging.info(f"[+] Sent OTP: {otp}")
@@ -212,7 +205,6 @@ async def sent_messages():
     else:
         logging.info("No data or invalid response.")
 
-
 async def main():
     if login():
         while True:
@@ -220,6 +212,5 @@ async def main():
             await asyncio.sleep(3)
     else:
         logging.error("Initial login failed. Exiting...")
-
 
 asyncio.run(main())
