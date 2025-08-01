@@ -188,7 +188,7 @@ async def sent_messages():
                         "🍏 *Service:* `" + service + "`\n"
                         "📬 *Full Message:*\n"
                         "```text\n" + message.strip() + "\n```\n"
-                        "👑 *Powered by:* [@Robiul_TNE_R]"
+                        "👑 *Powered by:* [Robiul_TNE_R]"
                     )
 
                     keyboard = InlineKeyboardMarkup([
